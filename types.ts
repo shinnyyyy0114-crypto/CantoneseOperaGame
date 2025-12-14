@@ -20,6 +20,14 @@ export interface GameLevel {
   options: Costume[];
 }
 
+export interface LyricChallenge {
+  id: string;
+  roleName: string; 
+  playTitle: string; 
+  chineseQuote: string;
+  englishQuote: string;
+}
+
 export enum GameState {
   START = 'START',
   PLAYING = 'PLAYING',

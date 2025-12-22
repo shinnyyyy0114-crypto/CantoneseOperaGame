@@ -3,15 +3,15 @@ export interface OperaRole {
   name: string;
   chineseName: string;
   description: string;
-  silhouetteImage: string; // URL for the silhouette
+  silhouetteImage: string;
 }
 
 export interface Costume {
   id: string;
-  roleId: string; // The correct match
+  roleId: string;
   name: string;
   imageUrl: string;
-  isCorrect?: boolean; // For visual feedback
+  isCorrect?: boolean;
 }
 
 export interface GameLevel {
@@ -26,6 +26,29 @@ export interface LyricChallenge {
   playTitle: string; 
   chineseQuote: string;
   englishQuote: string;
+}
+
+export interface PersonalityQuestion {
+  id: string;
+  chineseText: string;
+  englishText: string;
+  options: {
+    id: string;
+    chineseText: string;
+    englishText: string;
+    typeWeights: Record<string, number>; // Maps result ID to weight
+  }[];
+}
+
+export interface PersonalityResult {
+  id: string;
+  title: string;
+  englishTitle: string;
+  keywords: string[];
+  englishKeywords: string[];
+  chineseInterpretation: string;
+  englishInterpretation: string;
+  relatedOpera: string;
 }
 
 export enum GameState {

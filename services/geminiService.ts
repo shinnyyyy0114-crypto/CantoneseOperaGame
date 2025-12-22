@@ -10,22 +10,22 @@ export const getMatchFeedback = async (
 ): Promise<string> => {
   if (!process.env.API_KEY) {
     return isCorrect 
-      ? `Correct! The ${targetRole.name} is a key role in Cantonese Opera. (Add API_KEY for more facts)`
-      : `Not quite. That was ${droppedCostume.name}. (Add API_KEY for more facts)`;
+      ? `Correct! The ${targetRole.name} is a key role in Cantonese Opera.`
+      : `Not quite. That was ${droppedCostume.name}.`;
   }
 
   const prompt = isCorrect
-    ? `The user correctly matched the costume "${droppedCostume.name}" to the Cantonese Opera role "${targetRole.chineseName}" (${targetRole.name}). Provide a fascinating, short cultural fact (max 50 words) about this role or costume.`
-    : `The user incorrectly tried to put the costume "${droppedCostume.name}" (which belongs to a different role) onto the "${targetRole.chineseName}" (${targetRole.name}). Briefly explain (max 50 words) what role "${droppedCostume.name}" is actually for, or a fun fact about it.`;
+    ? `The user correctly matched the costume "${droppedCostume.name}" to the Cantonese Opera role "${targetRole.chineseName}" (${targetRole.name}). Provide a fascinating, very short cultural fact (max 30 words) about this role or costume.`
+    : `The user incorrectly tried to put the costume "${droppedCostume.name}" (which belongs to a different role) onto the "${targetRole.chineseName}" (${targetRole.name}). Briefly explain (max 30 words) what role "${droppedCostume.name}" is actually for.`;
 
   try {
     const response = await ai.models.generateContent({
-      model: 'gemini-2.5-flash',
+      model: 'gemini-3-flash-preview',
       contents: prompt,
     });
-    return response.text || "Insight unavailable.";
+    return response.text?.trim() || "Insight unavailable.";
   } catch (error) {
     console.error("Gemini API Error:", error);
-    return "The spirits of the opera house are quiet today. (API Error)";
+    return "The spirits of the opera house are quiet today.";
   }
 };

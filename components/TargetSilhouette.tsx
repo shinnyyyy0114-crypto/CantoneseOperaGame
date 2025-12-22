@@ -24,29 +24,27 @@ export const TargetSilhouette: React.FC<TargetSilhouetteProps> = ({
       onDragLeave={onDragLeave}
     >
        {/* Role Label */}
-       <div className="bg-red-900 text-amber-50 px-6 py-2 rounded-full shadow-md z-10">
+       <div className={`transition-transform duration-300 ${isOver ? 'scale-110' : ''} bg-red-900 text-amber-50 px-6 py-2 rounded-full shadow-md z-10`}>
           <h2 className="text-2xl font-bold font-serif tracking-widest">{role.chineseName}</h2>
           <p className="text-xs uppercase tracking-wider text-center text-red-200">{role.name}</p>
        </div>
 
       {/* The Silhouette Container */}
-      {/* FIXED: Changed bg-white/60 to bg-white (solid) to remove foggy effect */}
       <div 
         className={`
             relative w-64 h-96 md:w-80 md:h-[500px] 
-            transition-all duration-500 ease-out
+            transition-all duration-300 ease-in-out
             rounded-2xl border-4 
-            flex items-center justify-center
+            flex items-center justify-center backdrop-blur-sm
             ${isOver 
-                ? 'border-amber-400 bg-amber-50 scale-105 shadow-[0_0_30px_rgba(251,191,36,0.4)]' 
-                : 'border-dashed border-gray-400 bg-white shadow-inner'
+                ? 'border-amber-500 bg-amber-50/60 scale-[1.03] shadow-[0_0_40px_rgba(245,158,11,0.5)] ring-4 ring-amber-200 ring-opacity-50' 
+                : 'border-dashed border-stone-300 bg-white/40 shadow-inner'
             }
         `}
       >
         {/* Silhouette Image Layer */}
-        {/* FIXED: Removed grayscale/contrast filters, increased opacity slightly for clarity */}
         <div 
-            className="absolute inset-4 opacity-40 pointer-events-none transition-opacity duration-300"
+            className={`absolute inset-4 pointer-events-none transition-all duration-500 ${isOver ? 'opacity-60 scale-105' : 'opacity-40'}`}
             style={{
                 backgroundImage: `url(${role.silhouetteImage})`,
                 backgroundSize: 'cover',
@@ -55,15 +53,19 @@ export const TargetSilhouette: React.FC<TargetSilhouetteProps> = ({
         />
 
         {/* Instructions / Central Prompt */}
-        <div className={`text-center pointer-events-none transition-opacity duration-300 ${isOver ? 'opacity-0' : 'opacity-100'}`}>
-            <div className="w-16 h-16 mx-auto mb-2 border-2 border-gray-400 rounded-full flex items-center justify-center bg-white/80">
-                <span className="text-3xl text-gray-400">+</span>
+        <div className={`text-center pointer-events-none transition-all duration-300 ${isOver ? 'opacity-0 scale-75' : 'opacity-100'}`}>
+            <div className="w-16 h-16 mx-auto mb-4 border-2 border-stone-300 rounded-full flex items-center justify-center bg-white/80 shadow-sm">
+                <span className="text-3xl text-stone-400">+</span>
             </div>
-            <p className="text-gray-500 font-serif italic px-8">
+            <p className="text-stone-800 font-serif font-bold italic px-8 drop-shadow-sm">
                 Drag the correct costume here
             </p>
         </div>
 
+        {/* Hover feedback overlay */}
+        {isOver && (
+          <div className="absolute inset-0 border-4 border-amber-400 rounded-xl animate-pulse pointer-events-none"></div>
+        )}
       </div>
     </div>
   );
